@@ -157,12 +157,85 @@ onChange("fileInput", function(element) {
     container("fileOutput").textContent = 
         `File: ${file.name}\nUkuran: ${(file.size/1024).toFixed(2)} KB`;
 });</div>
-            </div>
+ <!-- onInput Function -->
+ <div class="section">
+    <h2>4. Fungsi onInput()</h2>
+    <p>Fungsi <code>onInput()</code> adalah wrapper untuk menangani perubahan nilai secara real-time pada element form. 
+       Berbeda dengan onChange yang menunggu element kehilangan fokus, onInput bereaksi setiap kali ada perubahan.</p>
+    
+    <div class="code-block">
+export function onInput(id, actionfunctionname){
+document.getElementById(id).oninput = function(event) {
+actionfunctionname(event.target);
+};
+}</div>
+
+    <h3>Contoh 1: Real-time Character Counter</h3>
+    <div class="example">
+        <div class="demo-box">
+            <label for="messageInput">Pesan:</label>
+            <textarea id="messageInput" rows="4" maxlength="100" placeholder="Ketik pesan Anda..."></textarea>
+            <div class="character-count" id="charCount">0/100 karakter</div>
         </div>
+        <div class="code-block">
+// Contoh penggunaan onInput untuk menghitung karakter:
+onInput("messageInput", function(element) {
+const maxLength = element.maxLength;
+const currentLength = element.value.length;
+container("charCount").textContent = 
+`${currentLength}/${maxLength} karakter`;
+});</div>
     </div>
 
+    <h3>Contoh 2: Real-time Range Slider</h3>
+    <div class="example">
+        <div class="demo-box">
+            <label for="rangeSlider">Atur Nilai (0-100):</label>
+            <input type="range" id="rangeSlider" min="0" max="100" value="50">
+            <div class="output-area" id="rangeOutput">Nilai: 50</div>
+        </div>
+        <div class="code-block">
+// Contoh penggunaan onInput dengan range slider:
+onInput("rangeSlider", function(element) {
+container("rangeOutput").textContent = 
+`Nilai: ${element.value}`;
+});</div>
+    </div>
+
+    <h3>Contoh 3: Perbandingan onChange vs onInput</h3>
+    <div class="example">
+        <div class="demo-box">
+            <div class="compare-inputs">
+                <div class="compare-box">
+                    <label for="onChangeInput">onChange:</label>
+                    <input type="text" id="onChangeInput" placeholder="Ketik disini...">
+                    <div class="output-area" id="onChangeOutput">Menunggu perubahan...</div>
+                </div>
+                <div class="compare-box">
+                    <label for="onInputDemo">onInput:</label>
+                    <input type="text" id="onInputDemo" placeholder="Ketik disini...">
+                    <div class="output-area" id="onInputOutput">Menunggu input...</div>
+                </div>
+            </div>
+        </div>
+        <div class="code-block">
+// Perbandingan onChange dan onInput:
+onChange("onChangeInput", function(element) {
+container("onChangeOutput").textContent = 
+`Nilai: ${element.value}`;
+});
+
+onInput("onInputDemo", function(element) {
+container("onInputOutput").textContent = 
+`Nilai: ${element.value}`;
+});</div>
+    </div>
+</div>
+</div>
+>
+
     <script type="module">
-        import { container, onClick, onChange } from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.2.0/element.js';
+        import { container, onClick, onChange,onInput  } from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.2.0/element.js';
 
         // Container function examples
         window.getTextContent = function() {
@@ -216,6 +289,26 @@ onClick("changeColorBtn", function() {
 
         // Initialize color preview
         container("colorPreview").style.backgroundColor = "#4CAF50";
+        //4
+          // onInput examples
+          onInput("messageInput", function(element) {
+            const maxLength = element.maxLength;
+            const currentLength = element.value.length;
+            container("charCount").textContent = `${currentLength}/${maxLength} karakter`;
+        });
+
+        onInput("rangeSlider", function(element) {
+            container("rangeOutput").textContent = `Nilai: ${element.value}`;
+        });
+
+        // Comparison examples
+        onChange("onChangeInput", function(element) {
+            container("onChangeOutput").textContent = `Nilai: ${element.value}`;
+        });
+
+        onInput("onInputDemo", function(element) {
+            container("onInputOutput").textContent = `Nilai: ${element.value}`;
+        });
     </script>
 </body>
 </html>
