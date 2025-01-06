@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial: JSCroot Element.js Functions</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Penjelasan Tutorial JSCroot Element.js</h1>
+
+        <!-- Container Function -->
+        <div class="section">
+            <h2>1. Fungsi container()</h2>
+            <p>Fungsi <code>container()</code> adalah wrapper (pembungkus) untuk <code>document.getElementById()</code>. 
+               Fungsi ini memudahkan kita untuk mendapatkan element HTML berdasarkan ID-nya.</p>
+            
+            <div class="code-block">
+export function container(id){
+    return document.getElementById(id);
+}
+
+//nih contohnya
+        window.getTextContent = function() {
+            const element = container("demoText");
+            const outputElement = container("output1");
+            outputElement.textContent = `Teks yang didapat: "${element.textContent.trim()}"`;
+        };</div>
+
+            <div class="example">
+                <div class="demo-box" id="demoText">
+                    Ini adalah teks dalam container
+                </div>
+                <button onclick="getTextContent()">Tampilkan Teks</button>
+                <div class="output-area" id="output1"></div>
+            </div>
+        </div>
+
+        <!-- onClick Function -->
+        <div class="section">
+            <h2>2. Fungsi onClick()</h2>
+            <p>Fungsi <code>onClick()</code> adalah wrapper untuk menambahkan event listener click ke element. 
+               Fungsi ini memudahkan kita untuk menangani event click pada element HTML.</p>
+            
+            <div class="code-block">
+export function onClick(id, actionfunctionname){
+    document.getElementById(id).onclick = actionfunctionname;
+}</div>
+
+            <h3>Contoh 1: Counter Sederhana</h3>
+            <div class="example">
+                <div class="demo-box">
+                    <p>Counter: <span id="counter" class="counter">0</span></p>
+                    <button id="incrementBtn">Tambah</button>
+                    <button id="decrementBtn">Kurang</button>
+                    <button id="resetCounterBtn">Reset</button>
+                </div>
+                <div class="code-block">
+// Contoh penggunaan onClick:
+let count = 0;
+
+onClick("incrementBtn", function() {
+    count++;
+    container("counter").textContent = count;
+});
+
+onClick("decrementBtn", function() {
+    count--;
+    container("counter").textContent = count;
+});
+
+onClick("resetCounterBtn", function() {
+    count = 0;
+    container("counter").textContent = count;
+});</div>
+            </div>
+
+            <h3>Contoh 2: Mengubah Warna</h3>
+            <div class="example">
+                <div class="demo-box" id="colorBox">
+                    Klik tombol untuk mengubah warna box ini
+                </div>
+                <button id="changeColorBtn">Ubah Warna</button>
+                <div class="code-block">
+// Contoh penggunaan onClick untuk mengubah warna:
+onClick("changeColorBtn", function() {
+    const colors = ['#4CAF50', '#2196F3', '#f44336', '#9C27B0'];
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    container("colorBox").style.backgroundColor = randomColor;
+});</div>
+        </div>
+
+        <!-- onChange Function -->
+        <div class="section">
+            <h2>3. Fungsi onChange()</h2>
+            <p>Fungsi <code>onChange()</code> adalah wrapper untuk menangani perubahan nilai pada element form (seperti input, select, textarea). 
+               Fungsi ini memudahkan kita untuk merespons perubahan nilai pada element HTML.</p>
+            
+            <div class="code-block">
+export function onChange(id, actionfunctionname){
+    document.getElementById(id).onchange = function(event) {
+        actionfunctionname(event.target);
+    };
+}</div>
+
+            <h3>Contoh 1: Select Box</h3>
+            <div class="example">
+                <div class="demo-box">
+                    <label for="fruitSelect">Pilih Buah:</label>
+                    <select id="fruitSelect">
+                        <option value="">Pilih satu...</option>
+                        <option value="apple">Apel</option>
+                        <option value="banana">Pisang</option>
+                        <option value="orange">Jeruk</option>
+                    </select>
+                    <div class="output-area" id="fruitOutput"></div>
+                </div>
+                <div class="code-block">
+// Contoh penggunaan onChange dengan select:
+onChange("fruitSelect", function(element) {
+    const selectedText = element.options[element.selectedIndex].text;
+    container("fruitOutput").textContent = 
+        `Anda memilih: ${selectedText}`;
+});</div>
+            </div>
+
+            <h3>Contoh 2: Color Picker</h3>
+            <div class="example">
+                <div class="demo-box">
+                    <label for="colorPicker">Pilih Warna:</label>
+                    <input type="color" id="colorPicker" value="#4CAF50">
+                    <div id="colorPreview" class="color-preview"></div>
+                    <div class="output-area" id="colorOutput"></div>
+                </div>
+                <div class="code-block">
+// Contoh penggunaan onChange dengan color picker:
+onChange("colorPicker", function(element) {
+    const color = element.value;
+    container("colorPreview").style.backgroundColor = color;
+    container("colorOutput").textContent = 
+        `Kode warna: ${color}`;
+});</div>
+            </div>
+
+            <h3>Contoh 3: File Input</h3>
+            <div class="example">
+                <div class="demo-box">
+                    <label for="fileInput">Pilih File:</label>
+                    <input type="file" id="fileInput">
+                    <div class="output-area" id="fileOutput"></div>
+                </div>
+                <div class="code-block">
+// Contoh penggunaan onChange dengan file input:
+onChange("fileInput", function(element) {
+    const file = element.files[0];
+    container("fileOutput").textContent = 
+        `File: ${file.name}\nUkuran: ${(file.size/1024).toFixed(2)} KB`;
+});</div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { container, onClick, onChange } from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.2.0/element.js';
+
+        // Container function examples
+        window.getTextContent = function() {
+            const element = container("demoText");
+            const outputElement = container("output1");
+            outputElement.textContent = `Teks yang didapat: "${element.textContent.trim()}"`;
+        };
+
+          // onClick examples
+          let count = 0;
+
+onClick("incrementBtn", function() {
+    count++;
+    container("counter").textContent = count;
+});
+
+onClick("decrementBtn", function() {
+    count--;
+    container("counter").textContent = count;
+});
+
+onClick("resetCounterBtn", function() {
+    count = 0;
+    container("counter").textContent = count;
+});
+
+onClick("changeColorBtn", function() {
+    const colors = ['#4CAF50', '#2196F3', '#f44336', '#9C27B0'];
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    container("colorBox").style.backgroundColor = randomColor;
+    container("colorBox").style.color = 'white';
+});
+
+        // onChange examples
+        onChange("fruitSelect", function(element) {
+            const selectedText = element.options[element.selectedIndex].text;
+            container("fruitOutput").textContent = `Anda memilih: ${selectedText}`;
+        });
+
+        onChange("colorPicker", function(element) {
+            const color = element.value;
+            container("colorPreview").style.backgroundColor = color;
+            container("colorOutput").textContent = `Kode warna: ${color}`;
+        });
+
+        onChange("fileInput", function(element) {
+            const file = element.files[0];
+            container("fileOutput").textContent = 
+                `File: ${file.name}\nUkuran: ${(file.size/1024).toFixed(2)} KB`;
+        });
+
+        // Initialize color preview
+        container("colorPreview").style.backgroundColor = "#4CAF50";
+    </script>
+</body>
+</html>
