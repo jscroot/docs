@@ -230,12 +230,118 @@ container("onInputOutput").textContent =
 `Nilai: ${element.value}`;
 });</div>
     </div>
+    <h1>5. Function runAfterDOM()</h1>
+        
+    <div class="section">
+        <h2>Penjelasan Fungsi</h2>
+        <p>Fungsi <code>runAfterDOM()</code> digunakan untuk menjalankan kode setelah DOM (Document Object Model) selesai dimuat,
+           tetapi sebelum semua resources (gambar, stylesheet, dll) selesai dimuat.</p>
+        
+        <div class="code-block">
+export function runAfterDOM(runFunctionEvent){
+window.addEventListener('DOMContentLoaded',(event) => {
+    runFunctionEvent(event)
+});
+}</div>
+
+        <div class="example">
+            <h3>Kapan Menggunakan:</h3>
+            <ul>
+                <li>Inisialisasi komponen UI</li>
+                <li>Setup event listeners</li>
+                <li>Mengisi data awal</li>
+                <li>Validasi form saat halaman dimuat</li>
+            </ul>
+        </div>
+
+        <h3>Contoh 1: Inisialisasi Konten</h3>
+        <div class="example">
+            <div class="demo-box">
+                <div id="initContent">
+                    <h4>Konten yang Diinisialisasi</h4>
+                    <p>Konten ini akan muncul dengan efek fade setelah DOM dimuat.</p>
+                </div>
+                <div id="domStatus" class="status pending">Menunggu DOM Loading...</div>
+            </div>
+            <div class="code-block">
+// Contoh penggunaan runAfterDOM untuk inisialisasi:
+runAfterDOM(function(event) {
+const content = document.getElementById('initContent');
+const status = document.getElementById('domStatus');
+
+// Update status
+status.className = 'status success';
+status.textContent = 'DOM telah dimuat!';
+
+// Tampilkan konten dengan fade
+content.style.opacity = '1';
+});</div>
+        </div>
+
+        <h3>Contoh 2: Setup Event Listeners</h3>
+        <div class="example">
+            <div class="demo-box">
+                <div id="listenerContainer">
+                    <button id="demoButton">Klik Saya</button>
+                    <div id="buttonOutput" class="output-area"></div>
+                </div>
+                <div id="listenerStatus" class="status pending">Menunggu setup event listeners...</div>
+            </div>
+            <div class="code-block">
+// Contoh penggunaan runAfterDOM untuk setup listeners:
+runAfterDOM(function(event) {
+const button = document.getElementById('demoButton');
+const status = document.getElementById('listenerStatus');
+
+// Setup event listener
+button.addEventListener('click', function() {
+    document.getElementById('buttonOutput')
+        .textContent = 'Button diklik!';
+});
+
+// Update status
+status.className = 'status success';
+status.textContent = 'Event listeners telah di-setup!';
+});</div>
+        </div>
+
+        <h3>Contoh 3: Form Validation Setup</h3>
+        <div class="example">
+            <div class="demo-box">
+                <form id="demoForm">
+                    <input type="text" id="username" placeholder="Username">
+                    <div id="validationOutput" class="output-area"></div>
+                </form>
+                <div id="formStatus" class="status pending">Menunggu setup validasi...</div>
+            </div>
+            <div class="code-block">
+// Contoh penggunaan runAfterDOM untuk setup validasi:
+runAfterDOM(function(event) {
+const input = document.getElementById('username');
+const status = document.getElementById('formStatus');
+
+// Setup validasi
+input.addEventListener('input', function() {
+    const output = document.getElementById('validationOutput');
+    if(this.value.length < 3) {
+        output.textContent = 'Username minimal 3 karakter';
+    } else {
+        output.textContent = 'Username valid';
+    }
+});
+
+// Update status
+status.className = 'status success';
+status.textContent = 'Validasi form telah di-setup!';
+});</div>
+        </div>
+
 </div>
 </div>
->
+
 
     <script type="module">
-        import { container, onClick, onChange,onInput  } from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.2.0/element.js';
+        import { container, onClick, onChange,onInput,runAfterDOM   } from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.2.0/element.js';
 
         // Container function examples
         window.getTextContent = function() {
@@ -308,6 +414,48 @@ onClick("changeColorBtn", function() {
 
         onInput("onInputDemo", function(element) {
             container("onInputOutput").textContent = `Nilai: ${element.value}`;
+        });
+        //5
+         // Example 1: Content Initialization
+         runAfterDOM(function(event) {
+            const content = document.getElementById('initContent');
+            const status = document.getElementById('domStatus');
+            
+            status.className = 'status success';
+            status.textContent = 'DOM telah dimuat!';
+            
+            content.style.opacity = '1';
+        });
+
+        // Example 2: Event Listener Setup
+        runAfterDOM(function(event) {
+            const button = document.getElementById('demoButton');
+            const status = document.getElementById('listenerStatus');
+            
+            button.addEventListener('click', function() {
+                document.getElementById('buttonOutput').textContent = 'Button diklik!';
+            });
+            
+            status.className = 'status success';
+            status.textContent = 'Event listeners telah di-setup!';
+        });
+
+        // Example 3: Form Validation Setup
+        runAfterDOM(function(event) {
+            const input = document.getElementById('username');
+            const status = document.getElementById('formStatus');
+            
+            input.addEventListener('input', function() {
+                const output = document.getElementById('validationOutput');
+                if(this.value.length < 3) {
+                    output.textContent = 'Username minimal 3 karakter';
+                } else {
+                    output.textContent = 'Username valid';
+                }
+            });
+            
+            status.className = 'status success';
+            status.textContent = 'Validasi form telah di-setup!';
         });
     </script>
 </body>
