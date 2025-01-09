@@ -336,12 +336,104 @@ status.textContent = 'Validasi form telah di-setup!';
 });</div>
         </div>
 
+        <h1>6. Function runAfterAll()</h1>
+        
+        <div class="section">
+            <h2>Penjelasan Fungsi</h2>
+            <p>Fungsi <code>runAfterAll()</code> digunakan untuk menjalankan kode setelah semua resources (HTML, CSS, gambar, script, dll) 
+               selesai dimuat. Ini berbeda dengan runAfterDOM() yang hanya menunggu struktur DOM.</p>
+            
+            <div class="code-block">
+export function runAfterAll(runFunctionEvent){
+    window.addEventListener('load', (event) => {
+        runFunctionEvent(event)
+    });
+}</div>
+
+            <h3>Perbandingan Timing Events</h3>
+            <div class="timing-diagram">
+                <div class="timeline"></div>
+                <div class="event-marker" style="left: 30%"></div>
+                <div class="event-label" style="left: 30%">DOMContentLoaded<br>Struktur HTML siap</div>
+                <div class="event-marker" style="left: 80%"></div>
+                <div class="event-label" style="left: 80%">load<br>Semua resources siap</div>
+            </div>
+
+            <h3>Contoh 1: Image Loading Status</h3>
+            <div class="example">
+                <div class="demo-box">
+                    <div class="image-container">
+                        <img src="/api/placeholder/200/200" alt="Demo Image" id="demoImage">
+                    </div>
+                    <div id="imageLoadStatus" class="status pending">
+                        <span class="loading-indicator"></span>
+                        Menunggu gambar dimuat...
+                    </div>
+                </div>
+                <div class="code-block">
+// Contoh penggunaan runAfterAll untuk memastikan gambar dimuat:
+runAfterAll(function(event) {
+    const status = document.getElementById('imageLoadStatus');
+    status.className = 'status success';
+    status.innerHTML = 'Semua resources termasuk gambar telah dimuat!';
+});</div>
+            </div>
+
+            <h3>Contoh 2: Resource Loading Report</h3>
+            <div class="example">
+                <div class="demo-box">
+                    <div id="resourceReport" class="output-area">
+                        Mengumpulkan informasi resources...
+                    </div>
+                </div>
+                <div class="code-block">
+// Contoh penggunaan runAfterAll untuk report resources:
+runAfterAll(function(event) {
+    const report = document.getElementById('resourceReport');
+    const resources = performance.getEntriesByType('resource');
+    let summary = `Total resources: ${resources.length}\n`;
+    summary += `Images: ${resources.filter(r => r.initiatorType === 'img').length}\n`;
+    summary += `Scripts: ${resources.filter(r => r.initiatorType === 'script').length}\n`;
+    summary += `Stylesheets: ${resources.filter(r => r.initiatorType === 'link').length}`;
+    report.textContent = summary;
+});</div>
+            </div>
+
+            <h3>Contoh 3: Lazy Loading Setup</h3>
+            <div class="example">
+                <div class="demo-box">
+                    <div id="lazyLoadContainer">
+                        <div class="status pending">Menunggu setup lazy loading...</div>
+                    </div>
+                </div>
+                <div class="code-block">
+// Contoh penggunaan runAfterAll untuk setup lazy loading:
+runAfterAll(function(event) {
+    const container = document.getElementById('lazyLoadContainer');
+    container.innerHTML = `
+        <div class="status success">
+            Lazy loading telah di-setup!
+            Scroll untuk memuat konten tambahan.
+        </div>
+    `;
+    // Setup intersection observer untuk lazy loading
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Load content when visible
+                entry.target.src = entry.target.dataset.src;
+                observer.unobserve(entry.target);
+            }
+        });
+    });
+});</div>
+            </div>
 </div>
 </div>
 
 
     <script type="module">
-        import { container, onClick, onChange,onInput,runAfterDOM   } from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.2.0/element.js';
+        import { container, onClick, onChange,onInput,runAfterDOM,runAfterAll    } from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.2.0/element.js';
 
         // Container function examples
         window.getTextContent = function() {
@@ -456,6 +548,35 @@ onClick("changeColorBtn", function() {
             
             status.className = 'status success';
             status.textContent = 'Validasi form telah di-setup!';
+        });
+        //6
+          // Example 1: Image Loading Status
+          runAfterAll(function(event) {
+            const status = document.getElementById('imageLoadStatus');
+            status.className = 'status success';
+            status.innerHTML = 'Semua resources termasuk gambar telah dimuat!';
+        });
+
+        // Example 2: Resource Loading Report
+        runAfterAll(function(event) {
+            const report = document.getElementById('resourceReport');
+            const resources = performance.getEntriesByType('resource');
+            let summary = `Total resources: ${resources.length}\n`;
+            summary += `Images: ${resources.filter(r => r.initiatorType === 'img').length}\n`;
+            summary += `Scripts: ${resources.filter(r => r.initiatorType === 'script').length}\n`;
+            summary += `Stylesheets: ${resources.filter(r => r.initiatorType === 'link').length}`;
+            report.textContent = summary;
+        });
+
+        // Example 3: Lazy Loading Setup
+        runAfterAll(function(event) {
+            const container = document.getElementById('lazyLoadContainer');
+            container.innerHTML = `
+                <div class="status success">
+                    Lazy loading telah di-setup!
+                    Scroll untuk memuat konten tambahan.
+                </div>
+            `;
         });
     </script>
 </body>
