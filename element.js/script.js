@@ -1,6 +1,6 @@
 
 
-import { container, onClick, onChange,onInput,runAfterDOM,runAfterAll ,textFocus,textBlur } from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.2.0/element.js';
+import { container, onClick, onChange,onInput,runAfterDOM,runAfterAll ,textFocus,textBlur,getValue } from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.2.0/element.js';
 
 // Container function examples
 window.getTextContent = function() {
@@ -236,3 +236,47 @@ validationMessage.textContent = "Semua field valid!";
           status.textContent = "Waktu habis! Focus dihapus.";
       }, 3000);
   });
+//9
+// Example 1: Get Text Input Value
+onClick("getTextBtn", function() {
+    const value = getValue("textInput");
+    container("textOutput").textContent = 
+        `Nilai yang diambil: "${value}"`;
+});
+
+// Example 2: Calculator
+onClick("calculateBtn", function() {
+    const num1 = Number(getValue("num1"));
+    const num2 = Number(getValue("num2"));
+    
+    const sum = num1 + num2;
+    const product = num1 * num2;
+    
+    container("calcOutput").textContent = 
+        `Hasil:\nPenjumlahan: ${sum}\nPerkalian: ${product}`;
+});
+
+// Example 3: Form Select and Textarea
+onClick("submitFormBtn", function() {
+    const color = getValue("colorSelect");
+    const message = getValue("messageArea");
+    
+    let output = "Form Submission:\n";
+    output += `Warna: ${color || 'Tidak dipilih'}\n`;
+    output += `Pesan: ${message || 'Kosong'}`;
+    
+    container("formOutput").textContent = output;
+});
+
+// Example 4: Real-time Monitoring
+onInput("rangeValue", function() {
+    const value = getValue("rangeValue");
+    container("monitorOutput").textContent = 
+        `Nilai slider: ${value}`;
+});
+
+onInput("textValue", function() {
+    const value = getValue("textValue");
+    container("monitorOutput").textContent = 
+        `Panjang teks: ${value.length} karakter`;
+});
