@@ -428,156 +428,96 @@ runAfterAll(function(event) {
     });
 });</div>
             </div>
-</div>
-</div>
+            <!-- Text Focus Function -->
+<div class="section">
+    <h2>7. Fungsi textFocus()</h2>
+    <p>Fungsi <code>textFocus()</code> adalah wrapper untuk memberikan fokus pada elemen input atau textarea. 
+       Fungsi ini memudahkan kita untuk memfokuskan kursor secara otomatis ke elemen form tertentu.</p>
+    
+    <div class="code-block">
+export function textFocus(id){
+    document.getElementById(id).focus();
+}</div>
 
+    <h3>Contoh 1: Auto Focus pada Form Input</h3>
+    <div class="example">
+        <div class="demo-box">
+            <label for="autoFocusInput">Input dengan Auto Focus:</label>
+            <input type="text" id="autoFocusInput" placeholder="Input ini akan otomatis fokus">
+            <button id="focusBtn">Fokus ke Input</button>
+        </div>
+        <div class="code-block">
+// Contoh penggunaan textFocus dengan button click:
+onClick("focusBtn", function() {
+    textFocus("autoFocusInput");
+});</div>
+    </div>
 
-    <script type="module">
-        import { container, onClick, onChange,onInput,runAfterDOM,runAfterAll    } from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.2.0/element.js';
-
-        // Container function examples
-        window.getTextContent = function() {
-            const element = container("demoText");
-            const outputElement = container("output1");
-            outputElement.textContent = `Teks yang didapat: "${element.textContent.trim()}"`;
-        };
-
-          // onClick examples
-          let count = 0;
-
-onClick("incrementBtn", function() {
-    count++;
-    container("counter").textContent = count;
+    <h3>Contoh 2: Focus pada Multiple Fields</h3>
+    <div class="example">
+        <div class="demo-box">
+            <div class="form-group">
+                <input type="text" id="field1" placeholder="Field 1">
+                <input type="text" id="field2" placeholder="Field 2">
+                <input type="text" id="field3" placeholder="Field 3">
+            </div>
+            <div class="button-group">
+                <button id="focusField1">Focus 1</button>
+                <button id="focusField2">Focus 2</button>
+                <button id="focusField3">Focus 3</button>
+            </div>
+        </div>
+        <div class="code-block">
+// Contoh penggunaan textFocus untuk multiple fields:
+onClick("focusField1", function() {
+    textFocus("field1");
 });
 
-onClick("decrementBtn", function() {
-    count--;
-    container("counter").textContent = count;
+onClick("focusField2", function() {
+    textFocus("field2");
 });
 
-onClick("resetCounterBtn", function() {
-    count = 0;
-    container("counter").textContent = count;
-});
+onClick("focusField3", function() {
+    textFocus("field3");
+});</div>
+    </div>
 
-onClick("changeColorBtn", function() {
-    const colors = ['#4CAF50', '#2196F3', '#f44336', '#9C27B0'];
-    const randomColor = colors[Math.floor(Math.random() * colors.length)];
-    container("colorBox").style.backgroundColor = randomColor;
-    container("colorBox").style.color = 'white';
-});
-
-        // onChange examples
-        onChange("fruitSelect", function(element) {
-            const selectedText = element.options[element.selectedIndex].text;
-            container("fruitOutput").textContent = `Anda memilih: ${selectedText}`;
-        });
-
-        onChange("colorPicker", function(element) {
-            const color = element.value;
-            container("colorPreview").style.backgroundColor = color;
-            container("colorOutput").textContent = `Kode warna: ${color}`;
-        });
-
-        onChange("fileInput", function(element) {
-            const file = element.files[0];
-            container("fileOutput").textContent = 
-                `File: ${file.name}\nUkuran: ${(file.size/1024).toFixed(2)} KB`;
-        });
-
-        // Initialize color preview
-        container("colorPreview").style.backgroundColor = "#4CAF50";
-        //4
-          // onInput examples
-          onInput("messageInput", function(element) {
-            const maxLength = element.maxLength;
-            const currentLength = element.value.length;
-            container("charCount").textContent = `${currentLength}/${maxLength} karakter`;
-        });
-
-        onInput("rangeSlider", function(element) {
-            container("rangeOutput").textContent = `Nilai: ${element.value}`;
-        });
-
-        // Comparison examples
-        onChange("onChangeInput", function(element) {
-            container("onChangeOutput").textContent = `Nilai: ${element.value}`;
-        });
-
-        onInput("onInputDemo", function(element) {
-            container("onInputOutput").textContent = `Nilai: ${element.value}`;
-        });
-        //5
-         // Example 1: Content Initialization
-         runAfterDOM(function(event) {
-            const content = document.getElementById('initContent');
-            const status = document.getElementById('domStatus');
-            
-            status.className = 'status success';
-            status.textContent = 'DOM telah dimuat!';
-            
-            content.style.opacity = '1';
-        });
-
-        // Example 2: Event Listener Setup
-        runAfterDOM(function(event) {
-            const button = document.getElementById('demoButton');
-            const status = document.getElementById('listenerStatus');
-            
-            button.addEventListener('click', function() {
-                document.getElementById('buttonOutput').textContent = 'Button diklik!';
-            });
-            
-            status.className = 'status success';
-            status.textContent = 'Event listeners telah di-setup!';
-        });
-
-        // Example 3: Form Validation Setup
-        runAfterDOM(function(event) {
-            const input = document.getElementById('username');
-            const status = document.getElementById('formStatus');
-            
-            input.addEventListener('input', function() {
-                const output = document.getElementById('validationOutput');
-                if(this.value.length < 3) {
-                    output.textContent = 'Username minimal 3 karakter';
-                } else {
-                    output.textContent = 'Username valid';
-                }
-            });
-            
-            status.className = 'status success';
-            status.textContent = 'Validasi form telah di-setup!';
-        });
-        //6
-          // Example 1: Image Loading Status
-          runAfterAll(function(event) {
-            const status = document.getElementById('imageLoadStatus');
-            status.className = 'status success';
-            status.innerHTML = 'Semua resources termasuk gambar telah dimuat!';
-        });
-
-        // Example 2: Resource Loading Report
-        runAfterAll(function(event) {
-            const report = document.getElementById('resourceReport');
-            const resources = performance.getEntriesByType('resource');
-            let summary = `Total resources: ${resources.length}\n`;
-            summary += `Images: ${resources.filter(r => r.initiatorType === 'img').length}\n`;
-            summary += `Scripts: ${resources.filter(r => r.initiatorType === 'script').length}\n`;
-            summary += `Stylesheets: ${resources.filter(r => r.initiatorType === 'link').length}`;
-            report.textContent = summary;
-        });
-
-        // Example 3: Lazy Loading Setup
-        runAfterAll(function(event) {
-            const container = document.getElementById('lazyLoadContainer');
-            container.innerHTML = `
-                <div class="status success">
-                    Lazy loading telah di-setup!
-                    Scroll untuk memuat konten tambahan.
+    <h3>Contoh 3: Form Validation dengan Focus</h3>
+    <div class="example">
+        <div class="demo-box">
+            <form id="validationForm">
+                <div class="form-group">
+                    <input type="text" id="nameField" placeholder="Nama">
+                    <input type="email" id="emailField" placeholder="Email">
+                    <div id="validationMessage" class="output-area"></div>
                 </div>
-            `;
-        });
-    </script>
+                <button type="button" id="validateBtn">Validasi Form</button>
+            </form>
+        </div>
+        <div class="code-block">
+// Contoh penggunaan textFocus dengan validasi:
+onClick("validateBtn", function() {
+    const nameField = container("nameField");
+    const emailField = container("emailField");
+    const validationMessage = container("validationMessage");
+    
+    if (!nameField.value) {
+        validationMessage.textContent = "Nama harus diisi!";
+        textFocus("nameField");
+        return;
+    }
+    
+    if (!emailField.value) {
+        validationMessage.textContent = "Email harus diisi!";
+        textFocus("emailField");
+        return;
+    }
+    
+    validationMessage.textContent = "Semua field valid!";
+});</div>
+
+</div>
+</div>
+    <script type="module" src="./script.js"></script>
 </body>
 </html>
