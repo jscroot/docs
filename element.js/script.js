@@ -1,6 +1,6 @@
 
 
-import { container, onClick, onChange,onInput,runAfterDOM,runAfterAll ,textFocus   } from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.2.0/element.js';
+import { container, onClick, onChange,onInput,runAfterDOM,runAfterAll ,textFocus,textBlur } from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.2.0/element.js';
 
 // Container function examples
 window.getTextContent = function() {
@@ -184,3 +184,55 @@ if (!emailField.value) {
 
 validationMessage.textContent = "Semua field valid!";
 });
+//8
+  // Example 1: Auto Blur after Enter
+  const input = container("autoBlurInput");
+  input.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+          container("blurOutput").textContent = 
+              `Status: Input selesai - "${this.value}"`;
+          textBlur("autoBlurInput");
+      }
+  });
+  
+  // Example 2: Validation Blur
+  onInput("validateBlurInput", function(element) {
+      const value = parseInt(element.value);
+      const output = container("blurValidationOutput");
+      
+      if (value < 1 || value > 100 || isNaN(value)) {
+          output.textContent = "Input harus antara 1-100";
+          output.style.color = "red";
+      } else {
+          output.textContent = "Input valid!";
+          output.style.color = "green";
+          textBlur("validateBlurInput");
+      }
+  });
+  
+  // Example 3: Toggle Focus/Blur
+  let isFocused = false;
+  onClick("toggleFocusBtn", function() {
+      const status = container("toggleStatus");
+      
+      if (isFocused) {
+          textBlur("toggleInput");
+          status.textContent = "Status: Tidak fokus";
+      } else {
+          textFocus("toggleInput");
+          status.textContent = "Status: Fokus";
+      }
+      isFocused = !isFocused;
+  });
+  
+  // Example 4: Timer Blur
+  onClick("startTimerBtn", function() {
+      const status = container("timerStatus");
+      textFocus("timerInput");
+      status.textContent = "Timer dimulai... (3 detik)";
+      
+      setTimeout(() => {
+          textBlur("timerInput");
+          status.textContent = "Waktu habis! Focus dihapus.";
+      }, 3000);
+  });

@@ -515,6 +515,110 @@ onClick("validateBtn", function() {
     
     validationMessage.textContent = "Semua field valid!";
 });</div>
+<!-- Text Blur Function -->
+<div class="section">
+    <h2>8. Fungsi textBlur()</h2>
+    <p>Fungsi <code>textBlur()</code> adalah wrapper untuk menghapus fokus dari elemen input atau textarea.
+       Fungsi ini berguna ketika kita ingin menghilangkan fokus dari elemen form secara programatis.</p>
+    
+    <div class="code-block">
+export function textBlur(id){
+    document.getElementById(id).blur();
+}</div>
+
+    <h3>Contoh 1: Auto Blur setelah Input</h3>
+    <div class="example">
+        <div class="demo-box">
+            <label for="autoBlurInput">Input dengan Auto Blur:</label>
+            <input type="text" id="autoBlurInput" placeholder="Ketik sesuatu dan tekan Enter">
+            <div class="output-area" id="blurOutput">Status: Menunggu input...</div>
+        </div>
+        <div class="code-block">
+// Contoh penggunaan textBlur dengan keypress event:
+const input = container("autoBlurInput");
+input.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        container("blurOutput").textContent = 
+            `Status: Input selesai - "${this.value}"`;
+        textBlur("autoBlurInput");
+    }
+});</div>
+    </div>
+
+    <h3>Contoh 2: Blur pada Validasi</h3>
+    <div class="example">
+        <div class="demo-box">
+            <div class="form-group">
+                <input type="text" id="validateBlurInput" 
+                       placeholder="Masukkan angka (1-100)">
+                <div id="blurValidationOutput" class="output-area"></div>
+            </div>
+        </div>
+        <div class="code-block">
+// Contoh penggunaan textBlur dengan validasi:
+onInput("validateBlurInput", function(element) {
+    const value = parseInt(element.value);
+    const output = container("blurValidationOutput");
+    
+    if (value < 1 || value > 100 || isNaN(value)) {
+        output.textContent = "Input harus antara 1-100";
+        output.style.color = "red";
+    } else {
+        output.textContent = "Input valid!";
+        output.style.color = "green";
+        textBlur("validateBlurInput");
+    }
+});</div>
+    </div>
+
+    <h3>Contoh 3: Toggle Focus/Blur</h3>
+    <div class="example">
+        <div class="demo-box">
+            <input type="text" id="toggleInput" 
+                   placeholder="Input akan toggle focus/blur">
+            <button id="toggleFocusBtn">Toggle Focus</button>
+            <div class="output-area" id="toggleStatus">
+                Status: Tidak fokus
+            </div>
+        </div>
+        <div class="code-block">
+// Contoh penggunaan textBlur dan textFocus untuk toggle:
+let isFocused = false;
+onClick("toggleFocusBtn", function() {
+    const input = container("toggleInput");
+    const status = container("toggleStatus");
+    
+    if (isFocused) {
+        textBlur("toggleInput");
+        status.textContent = "Status: Tidak fokus";
+    } else {
+        textFocus("toggleInput");
+        status.textContent = "Status: Fokus";
+    }
+    isFocused = !isFocused;
+});</div>
+    </div>
+
+    <h3>Contoh 4: Auto Blur Timer</h3>
+    <div class="example">
+        <div class="demo-box">
+            <input type="text" id="timerInput" 
+                   placeholder="Input akan blur setelah 3 detik">
+            <button id="startTimerBtn">Mulai Timer</button>
+            <div class="output-area" id="timerStatus"></div>
+        </div>
+        <div class="code-block">
+// Contoh penggunaan textBlur dengan timer:
+onClick("startTimerBtn", function() {
+    const status = container("timerStatus");
+    textFocus("timerInput");
+    status.textContent = "Timer dimulai... (3 detik)";
+    
+    setTimeout(() => {
+        textBlur("timerInput");
+        status.textContent = "Waktu habis! Focus dihapus.";
+    }, 3000);
+});</div>
 
 </div>
 </div>
