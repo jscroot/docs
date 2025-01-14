@@ -1,6 +1,6 @@
 
 
-import { container, onClick, onChange,onInput,runAfterDOM,runAfterAll ,textFocus,textBlur,getValue } from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.2.0/element.js';
+import { container, onClick, onChange,onInput,runAfterDOM,runAfterAll ,textFocus,textBlur,getValue,getAttributeValue  } from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.2.0/element.js';
 
 // Container function examples
 window.getTextContent = function() {
@@ -280,3 +280,73 @@ onInput("textValue", function() {
     container("monitorOutput").textContent = 
         `Panjang teks: ${value.length} karakter`;
 });
+//10
+  
+    // Example 1: Data Attributes
+    onClick("getUserInfoBtn", function() {
+        const userId = getAttributeValue("userButton", "data-user-id");
+        const role = getAttributeValue("userButton", "data-role");
+        
+        container("userOutput").textContent = 
+            `User ID: ${userId}\nRole: ${role}`;
+    });
+    
+    // Example 2: Input Attributes
+    onClick("getInputAttrBtn", function() {
+        const maxLength = getAttributeValue("limitedInput", "maxlength");
+        const pattern = getAttributeValue("limitedInput", "pattern");
+        const placeholder = getAttributeValue("limitedInput", "placeholder");
+        
+        let output = "Input Attributes:\n";
+        output += `Max Length: ${maxLength}\n`;
+        output += `Pattern: ${pattern}\n`;
+        output += `Placeholder: ${placeholder}`;
+        
+        container("inputAttrOutput").textContent = output;
+    });
+    
+    // Example 3: Link and Image Attributes
+    onClick("getLinkImageAttrBtn", function() {
+        // Get link attributes
+        const href = getAttributeValue("demoLink", "href");
+        const target = getAttributeValue("demoLink", "target");
+        const rel = getAttributeValue("demoLink", "rel");
+        
+        // Get image attributes
+        const src = getAttributeValue("demoImage", "src");
+        const alt = getAttributeValue("demoImage", "alt");
+        const width = getAttributeValue("demoImage", "width");
+        
+        let output = "Link Attributes:\n";
+        output += `HREF: ${href}\n`;
+        output += `Target: ${target}\n`;
+        output += `Rel: ${rel}\n\n`;
+        output += "Image Attributes:\n";
+        output += `Source: ${src}\n`;
+        output += `Alt Text: ${alt}\n`;
+        output += `Width: ${width}px`;
+        
+        container("linkImageOutput").textContent = output;
+    });
+    
+    // Example 4: Data Binding
+    onClick("nextProductBtn", function() {
+        // Get product info
+        const productId = getAttributeValue("productCard", "data-product-id");
+        const price = getAttributeValue("productCard", "data-price");
+        const category = getAttributeValue("productCard", "data-category");
+        const stock = getAttributeValue("productCard", "data-stock");
+        
+        // Get pagination info
+        const current = getAttributeValue("nextProductBtn", "data-current");
+        const total = getAttributeValue("nextProductBtn", "data-total");
+        
+        let output = "Product Information:\n";
+        output += `ID: ${productId}\n`;
+        output += `Price: $${price}\n`;
+        output += `Category: ${category}\n`;
+        output += `Stock: ${stock}\n\n`;
+        output += `Showing product ${current} of ${total}`;
+        
+        container("productOutput").textContent = output;
+    });

@@ -724,7 +724,155 @@ onInput("textValue", function() {
         `Panjang teks: ${value.length} karakter`;
 });</div>
 
-</div>
+<!-- Get Attribute Value Function -->
+<div class="section">
+    <h2>10. Fungsi getAttributeValue()</h2>
+    <p>Fungsi <code>getAttributeValue()</code> adalah wrapper untuk mendapatkan nilai dari atribut spesifik sebuah elemen HTML.
+       Fungsi ini memudahkan pengambilan nilai atribut seperti data-*, src, href, class, dan atribut lainnya.</p>
+    
+    <div class="code-block">
+export function getAttributeValue(id,attribute) {
+    return document.getElementById(id).getAttribute(attribute);
+}</div>
+
+    <h3>Contoh 1: Mendapatkan Nilai Data Attributes</h3>
+    <div class="example">
+        <div class="demo-box">
+            <button id="userButton" 
+                    data-user-id="12345" 
+                    data-role="admin">
+                Info Pengguna
+            </button>
+            <button id="getUserInfoBtn">
+                Tampilkan Info
+            </button>
+            <div class="output-area" id="userOutput"></div>
+        </div>
+        <div class="code-block">
+// Contoh penggunaan getAttributeValue untuk data attributes:
+onClick("getUserInfoBtn", function() {
+    const userId = getAttributeValue("userButton", "data-user-id");
+    const role = getAttributeValue("userButton", "data-role");
+    
+    container("userOutput").textContent = 
+        `User ID: ${userId}\nRole: ${role}`;
+});</div>
+    </div>
+
+    <h3>Contoh 2: Mendapatkan Nilai Input Attributes</h3>
+    <div class="example">
+        <div class="demo-box">
+            <input type="text" 
+                   id="limitedInput" 
+                   maxlength="10" 
+                   placeholder="Max 10 karakter"
+                   pattern="[A-Za-z]+"
+                   required>
+            <button id="getInputAttrBtn">
+                Cek Atribut Input
+            </button>
+            <div class="output-area" id="inputAttrOutput"></div>
+        </div>
+        <div class="code-block">
+// Contoh penggunaan getAttributeValue untuk input attributes:
+onClick("getInputAttrBtn", function() {
+    const maxLength = getAttributeValue("limitedInput", "maxlength");
+    const pattern = getAttributeValue("limitedInput", "pattern");
+    const placeholder = getAttributeValue("limitedInput", "placeholder");
+    
+    let output = "Input Attributes:\n";
+    output += `Max Length: ${maxLength}\n`;
+    output += `Pattern: ${pattern}\n`;
+    output += `Placeholder: ${placeholder}`;
+    
+    container("inputAttrOutput").textContent = output;
+});</div>
+    </div>
+
+    <h3>Contoh 3: Link dan Image Attributes</h3>
+    <div class="example">
+        <div class="demo-box">
+            <a id="demoLink" 
+               href="https://example.com" 
+               target="_blank" 
+               rel="noopener">
+                Link Demo
+            </a>
+            <br><br>
+            <img id="demoImage" 
+                 src="/api/placeholder/100/100" 
+                 alt="Demo Image" 
+                 width="100" 
+                 height="100">
+            <button id="getLinkImageAttrBtn">
+                Cek Atribut Link & Image
+            </button>
+            <div class="output-area" id="linkImageOutput"></div>
+        </div>
+        <div class="code-block">
+// Contoh penggunaan getAttributeValue untuk link dan image:
+onClick("getLinkImageAttrBtn", function() {
+    // Get link attributes
+    const href = getAttributeValue("demoLink", "href");
+    const target = getAttributeValue("demoLink", "target");
+    const rel = getAttributeValue("demoLink", "rel");
+    
+    // Get image attributes
+    const src = getAttributeValue("demoImage", "src");
+    const alt = getAttributeValue("demoImage", "alt");
+    const width = getAttributeValue("demoImage", "width");
+    
+    let output = "Link Attributes:\n";
+    output += `HREF: ${href}\n`;
+    output += `Target: ${target}\n`;
+    output += `Rel: ${rel}\n\n`;
+    output += "Image Attributes:\n";
+    output += `Source: ${src}\n`;
+    output += `Alt Text: ${alt}\n`;
+    output += `Width: ${width}px`;
+    
+    container("linkImageOutput").textContent = output;
+});</div>
+    </div>
+
+    <h3>Contoh 4: Custom Elements dengan Data Binding</h3>
+    <div class="example">
+        <div class="demo-box">
+            <div id="productCard" 
+                 data-product-id="123" 
+                 data-price="99.99" 
+                 data-category="electronics" 
+                 data-stock="10">
+                Product Card Demo
+            </div>
+            <button id="nextProductBtn" data-current="1" data-total="5">
+                Next Product
+            </button>
+            <div class="output-area" id="productOutput"></div>
+        </div>
+        <div class="code-block">
+// Contoh penggunaan getAttributeValue untuk data binding:
+onClick("nextProductBtn", function() {
+    // Get product info
+    const productId = getAttributeValue("productCard", "data-product-id");
+    const price = getAttributeValue("productCard", "data-price");
+    const category = getAttributeValue("productCard", "data-category");
+    const stock = getAttributeValue("productCard", "data-stock");
+    
+    // Get pagination info
+    const current = getAttributeValue("nextProductBtn", "data-current");
+    const total = getAttributeValue("nextProductBtn", "data-total");
+    
+    let output = "Product Information:\n";
+    output += `ID: ${productId}\n`;
+    output += `Price: $${price}\n`;
+    output += `Category: ${category}\n`;
+    output += `Stock: ${stock}\n\n`;
+    output += `Showing product ${current} of ${total}`;
+    
+    container("productOutput").textContent = output;
+});</div>
+    </div>
 </div>
     <script type="module" src="./script.js"></script>
 </body>
