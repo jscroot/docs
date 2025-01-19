@@ -157,6 +157,7 @@ onChange("fileInput", function(element) {
     container("fileOutput").textContent = 
         `File: ${file.name}\nUkuran: ${(file.size/1024).toFixed(2)} KB`;
 });</div>
+</div>
  <!-- onInput Function -->
  <div class="section">
     <h2>4. Fungsi onInput()</h2>
@@ -515,6 +516,7 @@ onClick("validateBtn", function() {
     
     validationMessage.textContent = "Semua field valid!";
 });</div>
+</div>
 <!-- Text Blur Function -->
 <div class="section">
     <h2>8. Fungsi textBlur()</h2>
@@ -618,7 +620,7 @@ onClick("startTimerBtn", function() {
         textBlur("timerInput");
         status.textContent = "Waktu habis! Focus dihapus.";
     }, 3000);
-});</div>
+});</div></div>
 <!-- Get Value Function -->
 <div class="section">
     <h2>9. Fungsi getValue()</h2>
@@ -672,6 +674,8 @@ onClick("calculateBtn", function() {
         `Hasil:\nPenjumlahan: ${sum}\nPerkalian: ${product}`;
 });</div>
     </div>
+</div>
+</div>
 
     <h3>Contoh 3: Form Select dan Textarea</h3>
     <div class="example">
@@ -699,7 +703,9 @@ onClick("submitFormBtn", function() {
     
     container("formOutput").textContent = output;
 });</div>
-    </div>
+</div>
+</div>
+</div>
 
     <h3>Contoh 4: Real-time Value Monitoring</h3>
     <div class="example">
@@ -723,7 +729,9 @@ onInput("textValue", function() {
     container("monitorOutput").textContent = 
         `Panjang teks: ${value.length} karakter`;
 });</div>
-
+</div>
+</div>
+</div>
 <!-- Get Attribute Value Function -->
 <div class="section">
     <h2>10. Fungsi getAttributeValue()</h2>
@@ -757,7 +765,9 @@ onClick("getUserInfoBtn", function() {
     container("userOutput").textContent = 
         `User ID: ${userId}\nRole: ${role}`;
 });</div>
-    </div>
+</div>
+</div>
+</div>
 
     <h3>Contoh 2: Mendapatkan Nilai Input Attributes</h3>
     <div class="example">
@@ -787,7 +797,7 @@ onClick("getInputAttrBtn", function() {
     
     container("inputAttrOutput").textContent = output;
 });</div>
-    </div>
+</div>
 
     <h3>Contoh 3: Link dan Image Attributes</h3>
     <div class="example">
@@ -835,6 +845,7 @@ onClick("getLinkImageAttrBtn", function() {
 });</div>
     </div>
 
+
     <h3>Contoh 4: Custom Elements dengan Data Binding</h3>
     <div class="example">
         <div class="demo-box">
@@ -872,7 +883,8 @@ onClick("nextProductBtn", function() {
     
     container("productOutput").textContent = output;
 });</div>
-    </div>
+</div>
+</div>
 </div>
     <script type="module" src="./script.js"></script>
 </body>
