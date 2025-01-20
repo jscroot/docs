@@ -885,6 +885,153 @@ onClick("nextProductBtn", function() {
 });</div>
 </div>
 </div>
+<!-- 11 -->
+<!-- Get Value Radio Function -->
+<div class="section">
+    <h2>11. Fungsi getValueRadio()</h2>
+    <p>Fungsi <code>getValueRadio()</code> digunakan untuk mendapatkan nilai dari radio button yang dipilih dalam sebuah grup radio buttons.
+       Fungsi ini menggunakan name attribute untuk mengidentifikasi grup radio button dan mengembalikan nilai dari radio button yang terpilih.</p>
+    
+    <div class="code-block">
+export function getValueRadio(name){
+    const RadioButtons = document.getElementsByName(name);
+    let selectedValue;
+
+    RadioButtons.forEach(radioButton => {
+        if (radioButton.checked) {
+            selectedValue = radioButton.value;
+        }
+        console.log("Selected Value:", selectedValue);
+    });
+    return selectedValue;
+}</div>
+
+    <h3>Contoh 1: Pemilihan Gender</h3>
+    <div class="example">
+        <div class="demo-box">
+            <form id="genderForm">
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="gender" value="male"> Laki-laki
+                    </label>
+                    <label>
+                        <input type="radio" name="gender" value="female"> Perempuan
+                    </label>
+                </div>
+                <button type="button" id="getGenderBtn">Tampilkan Pilihan</button>
+                <div class="output-area" id="genderOutput"></div>
+            </form>
+        </div>
+        <div class="code-block">
+// Contoh penggunaan getValueRadio untuk pemilihan gender:
+onClick("getGenderBtn", function() {
+    const selectedGender = getValueRadio("gender");
+    const output = container("genderOutput");
+    
+    if (selectedGender) {
+        output.textContent = `Gender yang dipilih: ${selectedGender}`;
+    } else {
+        output.textContent = "Silakan pilih gender";
+    }
+});</div>
+    </div>
+
+    <h3>Contoh 2: Survey Kepuasan</h3>
+    <div class="example">
+        <div class="demo-box">
+            <form id="satisfactionForm">
+                <p>Seberapa puas Anda dengan layanan kami?</p>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="satisfaction" value="5"> Sangat Puas
+                    </label>
+                    <label>
+                        <input type="radio" name="satisfaction" value="4"> Puas
+                    </label>
+                    <label>
+                        <input type="radio" name="satisfaction" value="3"> Netral
+                    </label>
+                    <label>
+                        <input type="radio" name="satisfaction" value="2"> Tidak Puas
+                    </label>
+                    <label>
+                        <input type="radio" name="satisfaction" value="1"> Sangat Tidak Puas
+                    </label>
+                </div>
+                <button type="button" id="submitSurveyBtn">Submit Survey</button>
+                <div class="output-area" id="surveyOutput"></div>
+            </form>
+        </div>
+        <div class="code-block">
+// Contoh penggunaan getValueRadio untuk survey:
+onClick("submitSurveyBtn", function() {
+    const satisfaction = getValueRadio("satisfaction");
+    const output = container("surveyOutput");
+    
+    if (satisfaction) {
+        const ratings = {
+            '5': 'Sangat Puas',
+            '4': 'Puas',
+            '3': 'Netral',
+            '2': 'Tidak Puas',
+            '1': 'Sangat Tidak Puas'
+        };
+        output.textContent = `Tingkat kepuasan Anda: ${ratings[satisfaction]}`;
+    } else {
+        output.textContent = "Silakan pilih tingkat kepuasan Anda";
+    }
+});</div>
+    </div>
+
+    <h3>Contoh 3: Pemilihan Paket Layanan</h3>
+    <div class="example">
+        <div class="demo-box">
+            <form id="packageForm">
+                <p>Pilih Paket Layanan:</p>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="package" value="basic" 
+                               data-price="99000" data-duration="1"> 
+                        Paket Basic (Rp 99.000/bulan)
+                    </label>
+                    <label>
+                        <input type="radio" name="package" value="pro" 
+                               data-price="199000" data-duration="3"> 
+                        Paket Pro (Rp 199.000/3 bulan)
+                    </label>
+                    <label>
+                        <input type="radio" name="package" value="premium" 
+                               data-price="399000" data-duration="12"> 
+                        Paket Premium (Rp 399.000/tahun)
+                    </label>
+                </div>
+                <button type="button" id="calculatePriceBtn">Hitung Total</button>
+                <div class="output-area" id="packageOutput"></div>
+            </form>
+        </div>
+        <div class="code-block">
+// Contoh penggunaan getValueRadio dengan data attributes:
+onClick("calculatePriceBtn", function() {
+    const packageName = getValueRadio("package");
+    const output = container("packageOutput");
+    
+    if (packageName) {
+        const selectedRadio = document.querySelector(`input[name="package"][value="${packageName}"]`);
+        const price = selectedRadio.getAttribute('data-price');
+        const duration = selectedRadio.getAttribute('data-duration');
+        
+        output.textContent = `Paket ${packageName.toUpperCase()}\n` +
+                           `Harga: Rp ${Number(price).toLocaleString()}\n` +
+                           `Durasi: ${duration} bulan`;
+    } else {
+        output.textContent = "Silakan pilih paket layanan";
+    }
+});</div>
+    </div>
+</div>
+<!-- 12 -->
+ 
+
 </div>
     <script type="module" src="./script.js"></script>
 </body>

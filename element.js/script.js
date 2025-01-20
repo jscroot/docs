@@ -1,6 +1,6 @@
 
 
-import { container, onClick, onChange,onInput,runAfterDOM,runAfterAll ,textFocus,textBlur,getValue,getAttributeValue  } from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.2.0/element.js';
+import { container, onClick, onChange,onInput,runAfterDOM,runAfterAll ,textFocus,textBlur,getValue,getAttributeValue,getValueRadio ,getValueSelect  } from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.2.0/element.js';
 
 // Container function examples
 window.getTextContent = function() {
@@ -351,4 +351,52 @@ onInput("textValue", function() {
         container("productOutput").textContent = output;
     });
     //11
+     // Example 1: Gender Selection
+     onClick("getGenderBtn", function() {
+        const selectedGender = getValueRadio("gender");
+        const output = container("genderOutput");
+        
+        if (selectedGender) {
+            output.textContent = `Gender yang dipilih: ${selectedGender}`;
+        } else {
+            output.textContent = "Silakan pilih gender";
+        }
+    });
     
+    // Example 2: Satisfaction Survey
+    onClick("submitSurveyBtn", function() {
+        const satisfaction = getValueRadio("satisfaction");
+        const output = container("surveyOutput");
+        
+        if (satisfaction) {
+            const ratings = {
+                '5': 'Sangat Puas',
+                '4': 'Puas',
+                '3': 'Netral',
+                '2': 'Tidak Puas',
+                '1': 'Sangat Tidak Puas'
+            };
+            output.textContent = `Tingkat kepuasan Anda: ${ratings[satisfaction]}`;
+        } else {
+            output.textContent = "Silakan pilih tingkat kepuasan Anda";
+        }
+    });
+    
+    // Example 3: Service Package Selection
+    onClick("calculatePriceBtn", function() {
+        const packageName = getValueRadio("package");
+        const output = container("packageOutput");
+        
+        if (packageName) {
+            const selectedRadio = document.querySelector(`input[name="package"][value="${packageName}"]`);
+            const price = selectedRadio.getAttribute('data-price');
+            const duration = selectedRadio.getAttribute('data-duration');
+            
+            output.textContent = `Paket ${packageName.toUpperCase()}\n` +
+                               `Harga: Rp ${Number(price).toLocaleString()}\n` +
+                               `Durasi: ${duration} bulan`;
+        } else {
+            output.textContent = "Silakan pilih paket layanan";
+        }
+    });
+//12
