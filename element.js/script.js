@@ -1,6 +1,6 @@
 
 
-import { container, onClick, onChange,onInput,runAfterDOM,runAfterAll ,textFocus,textBlur,getValue,getAttributeValue,getValueRadio ,getValueSelect  } from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.2.0/element.js';
+import { container, onClick, onChange,onInput,runAfterDOM,runAfterAll ,textFocus,textBlur,getValue,getAttributeValue,getValueRadio ,getValueSelect   } from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.2.0/element.js';
 
 // Container function examples
 window.getTextContent = function() {
@@ -400,3 +400,80 @@ onInput("textValue", function() {
         }
     });
 //12
+    
+    // Example 1: Province Selection
+    onClick("getProvinceBtn", function() {
+        const selectedProvince = getValueSelect("provinceSelect");
+        const output = container("provinceOutput");
+        
+        if (selectedProvince) {
+            const provinces = {
+                'jkt': 'DKI Jakarta',
+                'bdg': 'Jawa Barat',
+                'sby': 'Jawa Timur',
+                'diy': 'D.I. Yogyakarta'
+            };
+            output.textContent = `Provinsi yang dipilih: ${provinces[selectedProvince]}`;
+        } else {
+            output.textContent = "Silakan pilih provinsi";
+        }
+    });
+    
+    // Example 2: Multiple Hobbies Selection
+    onClick("getHobbiesBtn", function() {
+        const hobbySelect = document.getElementsByName("hobbySelect")[0];
+        const selectedHobbies = Array.from(hobbySelect.selectedOptions)
+                                    .map(option => option.value);
+        const output = container("hobbyOutput");
+        
+        if (selectedHobbies.length > 0) {
+            const hobbies = {
+                'reading': 'Membaca',
+                'sports': 'Olahraga',
+                'music': 'Musik',
+                'cooking': 'Memasak',
+                'traveling': 'Traveling'
+            };
+            const selectedHobbiesText = selectedHobbies
+                .map(hobby => hobbies[hobby])
+                .join(', ');
+            output.textContent = `Hobi yang dipilih: ${selectedHobbiesText}`;
+        } else {
+            output.textContent = "Silakan pilih minimal satu hobi";
+        }
+    });
+    
+    // Example 3: Cascading Selects
+    const subcategories = {
+        'electronics': ['Smartphone', 'Laptop', 'Tablet', 'Kamera'],
+        'clothing': ['Kemeja', 'Celana', 'Dress', 'Jaket'],
+        'books': ['Fiksi', 'Non-Fiksi', 'Pendidikan', 'Komik']
+    };
+    
+    onChange("categorySelect", function(element) {
+        const subcategorySelect = container("subcategorySelect");
+        const category = element.value;
+        
+        if (category) {
+            subcategorySelect.innerHTML = '<option value="">Pilih sub kategori...</option>';
+            subcategories[category].forEach(sub => {
+                subcategorySelect.innerHTML += `<option value="${sub}">${sub}</option>`;
+            });
+            subcategorySelect.disabled = false;
+        } else {
+            subcategorySelect.innerHTML = '<option value="">Pilih sub kategori...</option>';
+            subcategorySelect.disabled = true;
+        }
+    });
+    
+    onClick("getCategoryBtn", function() {
+        const category = getValueSelect("categorySelect");
+        const subcategory = getValueSelect("subcategorySelect");
+        const output = container("categoryOutput");
+        
+        if (category && subcategory) {
+            output.textContent = `Kategori: ${category}\nSub Kategori: ${subcategory}`;
+        } else {
+            output.textContent = "Silakan pilih kategori dan sub kategori";
+        }
+    });

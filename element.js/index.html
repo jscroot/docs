@@ -1030,7 +1030,157 @@ onClick("calculatePriceBtn", function() {
     </div>
 </div>
 <!-- 12 -->
- 
+<!-- Get Value Select Function -->
+<div class="section">
+    <h2>12. Fungsi getValueSelect()</h2>
+    <p>Fungsi <code>getValueSelect()</code> digunakan untuk mendapatkan nilai yang dipilih dari elemen select.
+       Fungsi ini menyederhanakan proses pengambilan nilai dari dropdown menu.</p>
+    
+    <div class="code-block">
+export function getValueSelect(id){
+    const sel = document.getElementsByName(id);
+    return sel.options[sel.selectedIndex].value;
+}</div>
+
+    <h3>Contoh 1: Pemilihan Provinsi</h3>
+    <div class="example">
+        <div class="demo-box">
+            <div class="form-group">
+                <label for="provinceSelect">Pilih Provinsi:</label>
+                <select name="provinceSelect" id="provinceSelect">
+                    <option value="">Pilih provinsi...</option>
+                    <option value="jkt">DKI Jakarta</option>
+                    <option value="bdg">Jawa Barat</option>
+                    <option value="sby">Jawa Timur</option>
+                    <option value="diy">D.I. Yogyakarta</option>
+                </select>
+                <button id="getProvinceBtn">Tampilkan Pilihan</button>
+                <div class="output-area" id="provinceOutput"></div>
+            </div>
+        </div>
+        <div class="code-block">
+// Contoh penggunaan getValueSelect untuk pemilihan provinsi:
+onClick("getProvinceBtn", function() {
+    const selectedProvince = getValueSelect("provinceSelect");
+    const output = container("provinceOutput");
+    
+    if (selectedProvince) {
+        const provinces = {
+            'jkt': 'DKI Jakarta',
+            'bdg': 'Jawa Barat',
+            'sby': 'Jawa Timur',
+            'diy': 'D.I. Yogyakarta'
+        };
+        output.textContent = `Provinsi yang dipilih: ${provinces[selectedProvince]}`;
+    } else {
+        output.textContent = "Silakan pilih provinsi";
+    }
+});</div>
+    </div>
+
+    <h3>Contoh 2: Multiple Select untuk Hobi</h3>
+    <div class="example">
+        <div class="demo-box">
+            <div class="form-group">
+                <label for="hobbySelect">Pilih Hobi (dapat memilih lebih dari satu):</label>
+                <select name="hobbySelect" id="hobbySelect" multiple size="4">
+                    <option value="reading">Membaca</option>
+                    <option value="sports">Olahraga</option>
+                    <option value="music">Musik</option>
+                    <option value="cooking">Memasak</option>
+                    <option value="traveling">Traveling</option>
+                </select>
+                <button id="getHobbiesBtn">Tampilkan Hobi</button>
+                <div class="output-area" id="hobbyOutput"></div>
+            </div>
+        </div>
+        <div class="code-block">
+// Contoh penggunaan getValueSelect dengan multiple select:
+onClick("getHobbiesBtn", function() {
+    const hobbySelect = document.getElementsByName("hobbySelect")[0];
+    const selectedHobbies = Array.from(hobbySelect.selectedOptions)
+                                .map(option => option.value);
+    const output = container("hobbyOutput");
+    
+    if (selectedHobbies.length > 0) {
+        const hobbies = {
+            'reading': 'Membaca',
+            'sports': 'Olahraga',
+            'music': 'Musik',
+            'cooking': 'Memasak',
+            'traveling': 'Traveling'
+        };
+        const selectedHobbiesText = selectedHobbies
+            .map(hobby => hobbies[hobby])
+            .join(', ');
+        output.textContent = `Hobi yang dipilih: ${selectedHobbiesText}`;
+    } else {
+        output.textContent = "Silakan pilih minimal satu hobi";
+    }
+});</div>
+    </div>
+
+    <h3>Contoh 3: Cascading Selects</h3>
+    <div class="example">
+        <div class="demo-box">
+            <div class="form-group">
+                <label for="categorySelect">Kategori:</label>
+                <select name="categorySelect" id="categorySelect">
+                    <option value="">Pilih kategori...</option>
+                    <option value="electronics">Elektronik</option>
+                    <option value="clothing">Pakaian</option>
+                    <option value="books">Buku</option>
+                </select>
+
+                <label for="subcategorySelect">Sub Kategori:</label>
+                <select name="subcategorySelect" id="subcategorySelect" disabled>
+                    <option value="">Pilih sub kategori...</option>
+                </select>
+
+                <button id="getCategoryBtn">Tampilkan Kategori</button>
+                <div class="output-area" id="categoryOutput"></div>
+            </div>
+        </div>
+        <div class="code-block">
+// Data untuk cascading select
+const subcategories = {
+    'electronics': ['Smartphone', 'Laptop', 'Tablet', 'Kamera'],
+    'clothing': ['Kemeja', 'Celana', 'Dress', 'Jaket'],
+    'books': ['Fiksi', 'Non-Fiksi', 'Pendidikan', 'Komik']
+};
+
+// Event handler untuk kategori utama
+onChange("categorySelect", function(element) {
+    const subcategorySelect = container("subcategorySelect");
+    const category = element.value;
+    
+    if (category) {
+        // Populate subcategory options
+        subcategorySelect.innerHTML = '<option value="">Pilih sub kategori...</option>';
+        subcategories[category].forEach(sub => {
+            subcategorySelect.innerHTML += `<option value="${sub}">${sub}</option>`;
+        });
+        subcategorySelect.disabled = false;
+    } else {
+        subcategorySelect.innerHTML = '<option value="">Pilih sub kategori...</option>';
+        subcategorySelect.disabled = true;
+    }
+});
+
+// Event handler untuk menampilkan pilihan
+onClick("getCategoryBtn", function() {
+    const category = getValueSelect("categorySelect");
+    const subcategory = getValueSelect("subcategorySelect");
+    const output = container("categoryOutput");
+    
+    if (category && subcategory) {
+        output.textContent = `Kategori: ${category}\nSub Kategori: ${subcategory}`;
+    } else {
+        output.textContent = "Silakan pilih kategori dan sub kategori";
+    }
+});</div>
+    </div>
+</div>
 
 </div>
     <script type="module" src="./script.js"></script>
